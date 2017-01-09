@@ -4,6 +4,7 @@
 
 #include <QStandardItemModel>
 #include <QStandardItem>
+#include <QTimer>
 
 static QStandardItemModel * test_model = NULL;
 
@@ -16,16 +17,21 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    if (test_model == NULL) {
-        initModel ();
-    }
-
-    ui->widget->setModel (test_model);
+    QTimer::singleShot (1000, this, &MainWindow::delayedInit);
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::delayedInit ()
+{
+    if (test_model == NULL) {
+        initModel ();
+    }
+
+    ui->widget->setModel (test_model);
 }
 
 void MainWindow::initModel ()

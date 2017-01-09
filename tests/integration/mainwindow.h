@@ -19,6 +19,9 @@ protected:
     void changeEvent(QEvent *e);
     void initModel();
 
+private slots:
+    void delayedInit();
+
 private:
     Ui::MainWindow *ui;
 };
