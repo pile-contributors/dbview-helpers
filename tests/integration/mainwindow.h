@@ -17,6 +17,7 @@ public:
 
 protected:
     void changeEvent(QEvent *e);
+    void initModel();
 
 private:
     Ui::MainWindow *ui;
