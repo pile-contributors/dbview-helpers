@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "dbview.h"
+#include "dbviewmo.h"
 
 #include <QStandardItemModel>
 #include <QStandardItem>
@@ -10,6 +11,20 @@ static QStandardItemModel * test_model = NULL;
 
 const int row_count = 10;
 const int col_count = 10;
+
+
+class LocalDbViewMo : public DbViewMo {
+public:
+
+    //! The model to be used in forms.
+    virtual QAbstractItemModel *
+    qtModel () {
+        return test_model;
+    }
+
+};
+static LocalDbViewMo * local_model = new LocalDbViewMo();
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -31,7 +46,7 @@ void MainWindow::delayedInit ()
         initModel ();
     }
 
-    ui->widget->setModel (test_model);
+    ui->widget->setUserModel (local_model);
 }
 
 void MainWindow::initModel ()
