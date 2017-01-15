@@ -31,7 +31,7 @@ if (UNIX)
     list(APPEND GTEST_BOTH_LIBRARIES ${CMAKE_THREAD_LIBS_INIT})
     add_definitions(-fPIC)
 endif()
+qt5_use_modules(dbview_gui Core Gui Widgets Concurrent)
 
 target_link_libraries(dbview_gui
     ${DBVIEW_LIBRARY})
-qt5_use_modules(dbview_gui Core Gui Widgets)

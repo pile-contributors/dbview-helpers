@@ -2,30 +2,75 @@
 #include "ui_mainwindow.h"
 #include "dbview.h"
 #include "dbviewmo.h"
+#include "dbviewmosi.h"
+#include "dbviewcolfilter.h"
 
 #include <QStandardItemModel>
 #include <QStandardItem>
 #include <QTimer>
+#include <QDateTimeEdit>
 
 static QStandardItemModel * test_model = NULL;
 
-const int row_count = 10;
+const int row_count = 100;
 const int col_count = 10;
 
 
+
+/* ------------------------------------------------------------------------- */
 class LocalDbViewMo : public DbViewMo {
 public:
+    virtual const QAbstractItemModel *
+    qtModelC () const {
+        return test_model;
+    }
 
-    //! The model to be used in forms.
     virtual QAbstractItemModel *
     qtModel () {
         return test_model;
     }
-
 };
+/* ========================================================================= */
+
+/* ------------------------------------------------------------------------- */
+class CustFilter1 : public DbViewColFilter {
+public:
+
+    CustFilter1 () :
+        DbViewColFilter ()
+    {}
+
+    CustFilter1 (const CustFilter1 & other) :
+        DbViewColFilter (other)
+    {}
+
+    //! The widget to be used for filtering the content of the table.
+    virtual QWidget *
+    control (
+            int column,
+            QWidget *parent) {
+        return new QDateTimeEdit (parent);
+    }
+
+    //! Create an exact duplicate of this one.
+    virtual DbViewColFilter *
+    clone() const {
+        return new CustFilter1 (*this);
+    }
+
+    //! Tell if this filter accepts provided piece of data.
+    virtual bool
+    acceptsData (
+            const QVariant & data) const {
+        return true;
+    }
+};
+/* ========================================================================= */
+
 static LocalDbViewMo * local_model = new LocalDbViewMo();
+static DbViewMoSi * simple_model = new DbViewMoSi();
 
-
+/* ------------------------------------------------------------------------- */
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -34,21 +79,31 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QTimer::singleShot (1000, this, &MainWindow::delayedInit);
 }
+/* ========================================================================= */
 
+/* ------------------------------------------------------------------------- */
 MainWindow::~MainWindow()
 {
     delete ui;
 }
+/* ========================================================================= */
 
+/* ------------------------------------------------------------------------- */
 void MainWindow::delayedInit ()
 {
     if (test_model == NULL) {
         initModel ();
     }
 
-    ui->widget->setUserModel (local_model);
+    ui->widget->setUserModel (simple_model);
+    // ui->widget->setUserModel (local_model);
+    ui->widget->setColumnFilter (0, true, QString("R10*"));
+    ui->widget->setColumnFilter (1, true, QStringList() << "1" << "2");
+    ui->widget->setColumnFilterChoice (1, true, QStringList() << "1" << "2");
 }
+/* ========================================================================= */
 
+/* ------------------------------------------------------------------------- */
 void MainWindow::initModel ()
 {
     test_model = new QStandardItemModel();
@@ -69,8 +124,12 @@ void MainWindow::initModel ()
         test_model->setVerticalHeaderItem(
                     i, new QStandardItem(QString("Row %1").arg(i)));
     }
-}
 
+    simple_model->setSourceModel (test_model);
+}
+/* ========================================================================= */
+
+/* ------------------------------------------------------------------------- */
 void MainWindow::changeEvent(QEvent *e)
 {
     QMainWindow::changeEvent(e);
@@ -82,3 +141,5 @@ void MainWindow::changeEvent(QEvent *e)
         break;
     }
 }
+/* ========================================================================= */
+
