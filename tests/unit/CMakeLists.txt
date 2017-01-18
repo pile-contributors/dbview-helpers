@@ -23,6 +23,7 @@ endif()
 add_executable(test_basic
     ${DBVIEW_SOURCES}
     ${DBVIEW_HEADERS}
+    ${DBVIEW_TEST_HEADERS}
     basic.cc)
 
 if (UNIX)

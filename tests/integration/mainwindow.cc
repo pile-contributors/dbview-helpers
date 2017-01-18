@@ -4,18 +4,22 @@
 #include "dbviewmo.h"
 #include "dbviewmosi.h"
 #include "dbviewcolfilter.h"
+#include "../dbview_tests.h"
+#include "../sqldb.h"
 
 #include <QStandardItemModel>
 #include <QStandardItem>
 #include <QTimer>
 #include <QDateTimeEdit>
+#include <QtSql>
 
 static QStandardItemModel * test_model = NULL;
 
 const int row_count = 100;
 const int col_count = 10;
 
-
+#define TEST_DB DBVIEW_BINARY_DIR "/testdb.sqlite"
+static SqlDb * sqldb = NULL;
 
 /* ------------------------------------------------------------------------- */
 class LocalDbViewMo : public DbViewMo {
@@ -106,6 +110,9 @@ void MainWindow::delayedInit ()
 /* ------------------------------------------------------------------------- */
 void MainWindow::initModel ()
 {
+    sqldb = new SqlDb(TEST_DB);
+
+
     test_model = new QStandardItemModel();
     int i, j;
 
