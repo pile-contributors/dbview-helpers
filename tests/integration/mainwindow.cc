@@ -109,11 +109,13 @@ void MainWindow::delayedInit ()
 
 
 
-    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
+    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE", "mycn");
     db.setDatabaseName(TEST_DB);
+    Q_ASSERT(db.open());
     sql_model = new DbViewMoSql(db, TBL_PERSON, this);
 
     ui->widget_2->setUserModel (sql_model);
+    ui->widget_2->setColumnFilter (1, true, QString(""));
 
 }
 /* ========================================================================= */
