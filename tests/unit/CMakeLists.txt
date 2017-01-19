@@ -35,7 +35,7 @@ endif()
 target_link_libraries(test_basic
     ${GTEST_BOTH_LIBRARIES}
     ${DBVIEW_LIBRARY})
-qt5_use_modules(test_basic Core Gui Widgets)
+qt5_use_modules(test_basic Core Gui Widgets Sql)
 
 add_test(
     NAME test_basic

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>433</width>
-    <height>412</height>
+    <width>1188</width>
+    <height>705</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,8 +15,17 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
+    <item row="1" column="0">
+     <widget class="DbTableView" name="widget_2" native="true"/>
+    </item>
     <item row="0" column="0">
      <widget class="DbTableView" name="widget" native="true"/>
+    </item>
+    <item row="0" column="1">
+     <widget class="DbTableView" name="widget_3" native="true"/>
+    </item>
+    <item row="1" column="1">
+     <widget class="DbTableView" name="widget_4" native="true"/>
     </item>
    </layout>
   </widget>
@@ -25,7 +34,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>433</width>
+     <width>1188</width>
      <height>21</height>
     </rect>
    </property>

@@ -3,6 +3,7 @@
 #include "dbview.h"
 #include "dbviewmo.h"
 #include "dbviewmosi.h"
+#include "dbviewmosql.h"
 #include "dbviewcolfilter.h"
 #include "../dbview_tests.h"
 #include "../sqldb.h"
@@ -73,6 +74,7 @@ public:
 
 static LocalDbViewMo * local_model = new LocalDbViewMo();
 static DbViewMoSi * simple_model = new DbViewMoSi();
+static DbViewMoSql * sql_model = NULL;
 
 /* ------------------------------------------------------------------------- */
 MainWindow::MainWindow(QWidget *parent) :
@@ -104,6 +106,15 @@ void MainWindow::delayedInit ()
     ui->widget->setColumnFilter (0, true, QString("R10*"));
     ui->widget->setColumnFilter (1, true, QStringList() << "1" << "2");
     ui->widget->setColumnFilterChoice (1, true, QStringList() << "1" << "2");
+
+
+
+    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
+    db.setDatabaseName(TEST_DB);
+    sql_model = new DbViewMoSql(db, TBL_PERSON, this);
+
+    ui->widget_2->setUserModel (sql_model);
+
 }
 /* ========================================================================= */
 

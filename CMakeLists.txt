@@ -46,7 +46,8 @@ include_directories(
 find_package(Qt5 COMPONENTS Core Gui Widgets)
 if(Qt5Core_FOUND)
     include_directories(
-         ${Qt5Core_INCLUDE_DIRS} ${Qt5Gui_INCLUDE_DIRS} ${Qt5Widgets_INCLUDE_DIRS} )
+         ${Qt5Core_INCLUDE_DIRS} ${Qt5Gui_INCLUDE_DIRS} ${Qt5Widgets_INCLUDE_DIRS}
+         ${Qt5Sql_INCLUDE_DIRS} )
 endif()
 
 if(INCLUDE_PILE_SOURCES_DIRECTLY)
